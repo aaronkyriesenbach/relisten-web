@@ -13,7 +13,7 @@ const SongsColumn = ({ source, loading, artistSlug, songSlug, activePlaybackSour
   const isActiveSource = source ? source.id === activePlaybackSourceId : false;
 
   return (
-    <Column heading={source ? `${removeLeadingZero(month)}/${removeLeadingZero(day)}/${year.slice(2)}` : 'Songs'} loading={loading} loadingAmount={12}>
+    <Column heading={source ? `${removeLeadingZero(month)}/${removeLeadingZero(day)}/${year.slice(2)} (${source.sets[0].tracks.length})` : 'Songs'} loading={loading} loadingAmount={12}>
       <style jsx>{`
         .column {
           display: flex;
