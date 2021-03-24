@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ children }) => (
+const Tag = ({ children }) => (
   <span className="tag">
     <style jsx>{`
       .tag {
@@ -18,3 +18,5 @@ export default ({ children }) => (
     {children}
   </span>
 );
+
+export default Tag;

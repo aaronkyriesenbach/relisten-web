@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default () => (
+const RowLoading = () => (
   <div className="loading content">
     <style jsx>{`
       .loading {
@@ -35,3 +35,5 @@ export default () => (
     </div>
   </div>
 );
+
+export default RowLoading;

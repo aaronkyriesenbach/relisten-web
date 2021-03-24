@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import RowLoading from './RowLoading';
 
-export default ({ height, children, href, active, loading, baseHrefOverride, ...props }) => (
+const Row = ({ height, children, href, active, loading, baseHrefOverride, ...props }) => (
   <div className="relisten-row" style={{ minHeight: height }} {...props}>
     <style jsx global>{`
       .relisten-row {
@@ -62,3 +62,5 @@ export default ({ height, children, href, active, loading, baseHrefOverride, ...
     {href || baseHrefOverride ? <Link href={baseHrefOverride ? baseHrefOverride : '/'} as={href}><a className={`${active ? 'active' : ''} content`}>{children}</a></Link> : children ? <div className={`content ${active ? 'active' : ''}`}>{children}</div> : null}
   </div>
 );
+
+export default Row;

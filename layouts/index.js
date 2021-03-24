@@ -1,7 +1,7 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
 
-export default ({ children, ...props }) => (
+const Index = ({ children, ...props }) => (
   <div className="layout">
     <style jsx>{`
       .layout {
@@ -30,3 +30,5 @@ export default ({ children, ...props }) => (
     <div className="content">{children}</div>
   </div>
 );
+
+export default Index;
