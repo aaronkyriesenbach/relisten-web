@@ -1,25 +1,12 @@
-import React from 'react';
-import App, { Container } from 'next/app';
-import Head from 'next/head';
-import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
+import App from 'next/app';
+import Head from 'next/head';
 import Raven from 'raven-js';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { initStore } from '../redux';
 
 require('@fortawesome/fontawesome-free/css/all.css');
-
-// next.js polyfills for IE11
-import 'core-js/features/object/assign';
-import 'core-js/features/object/values';
-import 'core-js/features/object/entries';
-import 'core-js/features/string/ends-with';// unsure if needed
-import 'core-js/features/string/starts-with';
-import 'core-js/features/string/includes';
-import 'core-js/features/array/includes';
-import 'core-js/features/array/find';
-import 'core-js/features/array/fill';
-import 'core-js/features/promise';
-
-import { initStore } from '../redux';
 
 const SENTRY_PUBLIC_DSN = 'https://d8fe64a30ead43e2ac70c750bc79a806@sentry.io/1261843';
 
@@ -54,15 +41,16 @@ class MyApp extends App {
     const content = 'app-id=715886886, app-argument=https://relisten.net' + fullPath;
 
     return (
-      <Container>
+      <div>
         <Head>
           <title>Relisten</title>
           <meta name="apple-itunes-app" content={content} />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         </Head>
         <Provider store={store}>
           <Component {...pageProps} />
         </Provider>
-      </Container>
+      </div>
     );
   }
 }

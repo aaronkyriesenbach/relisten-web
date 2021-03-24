@@ -117,8 +117,8 @@ class Navigation extends Component {
 
         `}</style>
         <div className="left">
-          <Link href="/" prefetch><a className="relisten-title desktop">RELISTEN</a></Link>
-          <Link href="/" prefetch><a className="relisten-mobile">Re</a></Link>
+          <Link href="/"><a className="relisten-title desktop">RELISTEN</a></Link>
+          <Link href="/"><a className="relisten-mobile">Re</a></Link>
           {this.secondaryNavTitle}
         </div>
         <div className="player">
@@ -131,12 +131,12 @@ class Navigation extends Component {
           </InlinePopup>
         </div>
         <div className="right nav desktop">
-          <div><Link href="/today" prefetch><a>TIH</a></Link></div>
-          <div><Link href="/live" prefetch><a>LIVE</a></Link></div>
-          <div><Link href="/chat" prefetch><a>CHAT</a></Link></div>
-          <div><Link href="/ios" prefetch><a>iOS</a></Link></div>
-          <div><Link href="/sonos" prefetch><a>SONOS</a></Link></div>
-          <div><Link href="/about" prefetch><a>ABOUT</a></Link></div>
+          <div><Link href="/today"><a>TIH</a></Link></div>
+          <div><Link href="/live"><a>LIVE</a></Link></div>
+          <div><Link href="/chat"><a>CHAT</a></Link></div>
+          <div><Link href="/ios"><a>iOS</a></Link></div>
+          <div><Link href="/sonos"><a>SONOS</a></Link></div>
+          <div><Link href="/about"><a>ABOUT</a></Link></div>
         </div>
       </div>
     );
@@ -173,7 +173,7 @@ class Navigation extends Component {
 
   toggleMenu = async () => {
     this.modal.toggleModal();
-  }
+  };
 }
 
 
