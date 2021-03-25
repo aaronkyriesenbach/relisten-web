@@ -66,8 +66,11 @@ const compareTapes = (tape1, tape2) => {
     return tape1 ? 1 : tape2 ? -1 : 0;
   }
 
-  const tape1Multiplier = 1 + ((tape1.duration - tape2.duration) / tape1.duration) * 0.5;
-  const tape2Multiplier = 1 + ((tape2.duration - tape1.duration) / tape2.duration) * 0.5;
+  var tape1Multiplier = 1;
+  var tape2Multiplier = 1;
+
+  tape1Multiplier += ((tape1.duration - tape2.duration) / tape1.duration) * 0.5;
+  tape2Multiplier += ((tape2.duration - tape1.duration) / tape2.duration) * 0.5;
 
   return tape1.avg_rating * tape1Multiplier - tape2.avg_rating * tape2Multiplier;
 };

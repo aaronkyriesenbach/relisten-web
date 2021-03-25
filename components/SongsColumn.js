@@ -49,15 +49,37 @@ const SongsColumn = ({ source, loading, artistSlug, songSlug, activePlaybackSour
       {source && <RowHeader>FIN</RowHeader>}
       {source && source.links &&
         source.links.map(link =>
-          <a href={link.url} target="_blank" key={link.id}>
+          // <a href={link.url} target="_blank" key={link.id}>
+          //   <Row>
+          //     {link.label}
+          //   </Row>
+          // </a>
+          <div onClick={() => copyToClipboard(link.url)} style={{ cursor: 'pointer' }}>
             <Row>
               {link.label}
             </Row>
-          </a>
+          </div>
         )
       }
     </Column>
   );
+};
+
+const copyToClipboard = (text) => {
+  var textArea = document.createElement("textarea");
+  textArea.value = text;
+
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  document.execCommand("copy");
+
+  document.body.removeChild(textArea);
 };
 
 const mapStateToProps = ({ tapes, app, playback }) => {
