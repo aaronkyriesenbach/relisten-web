@@ -8,38 +8,38 @@ const defaultState = {
 
 export default function counter(state = defaultState, action) {
   switch (action.type) {
-  case REQUEST_TAPES:
-    return {
-      ...state,
-      [action.artistSlug]: {
-        ...state[action.artistSlug],
-        [action.showDate]: {
-          data: {},
-          meta: {
-            loaded: false,
-            loading: true,
-            error: false,
+    case REQUEST_TAPES:
+      return {
+        ...state,
+        [action.artistSlug]: {
+          ...state[action.artistSlug],
+          [action.showDate]: {
+            data: {},
+            meta: {
+              loaded: false,
+              loading: true,
+              error: false,
+            },
           },
         },
-      },
-    };
-  case RECEIVE_TAPES:
-    return {
-      ...state,
-      [action.artistSlug]: {
-        ...state[action.artistSlug],
-        [action.showDate]: {
-          data: action.data,
-          meta: {
-            loaded: true,
-            loading: false,
-            error: false,
+      };
+    case RECEIVE_TAPES:
+      return {
+        ...state,
+        [action.artistSlug]: {
+          ...state[action.artistSlug],
+          [action.showDate]: {
+            data: action.data,
+            meta: {
+              loaded: true,
+              loading: false,
+              error: false,
+            },
           },
         },
-      },
-    };
-  default:
-    return state;
+      };
+    default:
+      return state;
   }
 }
 
@@ -50,7 +50,7 @@ const getEtreeId = (s = '') => Number(s.split('.').reverse().find(x => /^[0-9]+$
 const sortTapes = (data = {}) => {
   const sortedTapes = data && data.sources ? [...data.sources].sort(
     firstBy(t => t.is_soundboard)
-    // Charlie for GD, Pete for JRAD
+      // Charlie for GD, Pete for JRAD
       .thenBy(t => /(charlie miller)|(peter costello)/i.test([t.taper, t.transferrer, t.source].join('')))
       .thenBy((t1, t2) => getEtreeId(t1.upstream_identifier) - getEtreeId(t2.upstream_identifier))
       .thenBy(t => t.avg_rating_weighted)
