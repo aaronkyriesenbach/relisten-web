@@ -6,32 +6,32 @@ const defaultState = {
 
 export default function counter(state = defaultState, action) {
   switch (action.type) {
-  case REQUEST_YEARS:
-    return {
-      ...state,
-      [action.artistSlug]: {
-        data: [],
-        meta: {
-          loaded: false,
-          loading: true,
-          error: false,
+    case REQUEST_YEARS:
+      return {
+        ...state,
+        [action.artistSlug]: {
+          data: [],
+          meta: {
+            loaded: false,
+            loading: true,
+            error: false,
+          },
         },
-      },
-    };
-  case RECEIVE_YEARS:
-    return {
-      ...state,
-      [action.artistSlug]: {
-        data: Array.isArray(action.data) ? action.data : [],
-        meta: {
-          loaded: true,
-          loading: false,
-          error: false,
+      };
+    case RECEIVE_YEARS:
+      return {
+        ...state,
+        [action.artistSlug]: {
+          data: Array.isArray(action.data) ? action.data : [],
+          meta: {
+            loaded: true,
+            loading: false,
+            error: false,
+          },
         },
-      },
-    };
-  default:
-    return state;
+      };
+    default:
+      return state;
   }
 }
 
@@ -54,7 +54,6 @@ export function fetchYears(artistSlug) {
   return (dispatch, getState) => {
     const state = getState().years[artistSlug];
     if (state && state.meta.loaded) return {};
-    // console.log('fetching years', artistSlug)
     dispatch(requestYears(artistSlug));
     return fetch(`https://relistenapi.alecgorge.com/api/v2/artists/${artistSlug}/years`)
       .then(res => res.json())

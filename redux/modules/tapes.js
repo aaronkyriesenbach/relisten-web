@@ -3,8 +3,7 @@ import { firstBy } from 'thenby';
 const REQUEST_TAPES = 'years/REQUEST_TAPES';
 const RECEIVE_TAPES = 'years/RECEIVE_TAPES';
 
-const defaultState = {
-};
+const defaultState = {};
 
 export default function counter(state = defaultState, action) {
   switch (action.type) {
@@ -62,6 +61,32 @@ const sortTapes = (data = {}) => {
   };
 };
 
+const compareTapes = (tape1, tape2) => {
+  if (!tape1 || !tape2) {
+    return tape1 ? 1 : tape2 ? -1 : 0;
+  }
+
+  const tape1Multiplier = 1 + ((tape1.duration - tape2.duration) / tape1.duration) * 0.5;
+  const tape2Multiplier = 1 + ((tape2.duration - tape1.duration) / tape2.duration) * 0.5;
+
+  return tape1.avg_rating * tape1Multiplier - tape2.avg_rating * tape2Multiplier;
+};
+
+const sortTapes2 = (data = {}) => {
+  var tapes = [];
+  if (data && data.sources) {
+    tapes = [...data.sources];
+  }
+
+  if (tapes.some(t => t.avg_rating > 7)) {
+    tapes = tapes.filter(t => t.avg_rating > 5);
+  }
+
+  tapes.sort(compareTapes);
+
+  return { ...(data || {}), sources: tapes.reverse() };
+};
+
 export function requestTapes(artistSlug, year, showDate) {
   return {
     type: REQUEST_TAPES,
@@ -77,7 +102,7 @@ export function receiveTapes(artistSlug, year, showDate, data) {
     artistSlug,
     year,
     showDate,
-    data: sortTapes(data),
+    data: sortTapes2(data),
   };
 }
 
@@ -86,8 +111,6 @@ export function fetchTapes(artistSlug, year, showDate) {
     const state = getState().tapes[artistSlug];
 
     if (state && state[showDate] && state[showDate].meta.loaded) return {};
-
-    // console.log('fetching tapes', artistSlug, year, showDate)
 
     dispatch(requestTapes(artistSlug, year, showDate));
 

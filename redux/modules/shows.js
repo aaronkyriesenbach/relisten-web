@@ -6,38 +6,38 @@ const defaultState = {
 
 export default function counter(state = defaultState, action) {
   switch (action.type) {
-  case REQUEST_SHOWS:
-    return {
-      ...state,
-      [action.artistSlug]: {
-        ...state[action.artistSlug],
-        [action.year]: {
-          data: {},
-          meta: {
-            loaded: false,
-            loading: true,
-            error: false,
+    case REQUEST_SHOWS:
+      return {
+        ...state,
+        [action.artistSlug]: {
+          ...state[action.artistSlug],
+          [action.year]: {
+            data: {},
+            meta: {
+              loaded: false,
+              loading: true,
+              error: false,
+            },
           },
         },
-      },
-    };
-  case RECEIVE_SHOWS:
-    return {
-      ...state,
-      [action.artistSlug]: {
-        ...state[action.artistSlug],
-        [action.year]: {
-          data: action.data,
-          meta: {
-            loaded: true,
-            loading: false,
-            error: false,
+      };
+    case RECEIVE_SHOWS:
+      return {
+        ...state,
+        [action.artistSlug]: {
+          ...state[action.artistSlug],
+          [action.year]: {
+            data: action.data,
+            meta: {
+              loaded: true,
+              loading: false,
+              error: false,
+            },
           },
         },
-      },
-    };
-  default:
-    return state;
+      };
+    default:
+      return state;
   }
 }
 
@@ -62,7 +62,6 @@ export function fetchShows(artistSlug, year) {
   return (dispatch, getState) => {
     const state = getState().shows[artistSlug];
     if (state && state[year] && state[year].meta && state[year].meta.loaded) return {};
-    // console.log('fetching shows', artistSlug, year)
     dispatch(requestShows(artistSlug, year));
     return fetch(`https://relistenapi.alecgorge.com/api/v2/artists/${artistSlug}/years/${year}`)
       .then(res => res.json())

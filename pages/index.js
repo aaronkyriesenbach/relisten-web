@@ -219,7 +219,7 @@ if (typeof window !== 'undefined') {
   setTimeout(async () => {
     const { currentTime, duration } = localStorage;
     const cachedUrl = window.location.pathname + window.location.search;
-    const [artistSlug, ,,, songSlug] = window.location.pathname.replace(/^\//, '').split('/');
+    const [artistSlug, , , , songSlug] = window.location.pathname.replace(/^\//, '').split('/');
 
     if (!songSlug && localStorage.lastPlayedUrl) {
       const [nextDispatches = [], afterDispatches = []] = handleRouteChange(window.store, localStorage.lastPlayedUrl, true);
@@ -261,8 +261,8 @@ const playSong = (store, forceIsPaused) => {
   const playImmediately = forceIsPaused ? false : true;
   let tape;
 
-  console.log('play song', playback, showTapes);
-  if (!showTapes) return console.log('err showTapes');
+  // TODO: Better error handling
+  // if (!showTapes) return console.log('err showTapes');
 
   if (showTapes.data && showTapes.data.sources && showTapes.data.sources.length) {
     const { sources } = showTapes.data;
@@ -270,7 +270,8 @@ const playSong = (store, forceIsPaused) => {
     tape = sources.find(tape => tape.id === activePlaybackSourceId) || sources[0];
   }
 
-  if (!tape) return console.log('err tape');
+  // TODO: Better error handling
+  // if (!tape) return console.log('err tape');
 
   let idx = 0;
   let currentIdx = 0;

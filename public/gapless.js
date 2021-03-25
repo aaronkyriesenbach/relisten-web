@@ -1,13 +1,13 @@
-(function(factory) {
+(function (factory) {
   // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
   // We use `self` instead of `window` for `WebWorker` support.
   const root = (typeof self == 'object' && self.self === self && self) ||
-            (typeof global == 'object' && global.global === global && global);
+    (typeof global == 'object' && global.global === global && global);
 
   // Node.js, CommonJS, or ES6
   if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = factory(root, exports);
-  // Finally, as a browser global.
+    // Finally, as a browser global.
   } else {
     root.Gapless = factory(root, {});
   }
@@ -218,7 +218,6 @@
       this.audio.volume = queue.state.volume;
       this.audio.preload = 'none';
       this.audio.src = trackUrl;
-      // this.audio.onprogress = () => this.debug(this.idx, this.audio.buffered)
 
       if (queue.state.webAudioIsDisabled) return;
 
@@ -264,8 +263,6 @@
         .then(res => res.arrayBuffer())
         .then(res =>
           this.audioContext.decodeAudioData(res, buffer => {
-            this.debug('finished downloading track');
-
             this.webAudioLoadingState = GaplessPlaybackLoadingState.LOADED;
 
             this.bufferSourceNode.buffer = this.audioBuffer = buffer;
@@ -280,20 +277,12 @@
             cb && cb(buffer);
           })
         )
-        .catch(e => this.debug('caught fetch error', e));
+        .catch(e => false); // TODO: Enhance error messaging
     }
 
     switchToWebAudio() {
-      // if we've switched tracks, don't switch to web audio
+      // If we've switched tracks, don't switch to web audio
       if (!this.isActiveTrack) return;
-
-      this.debug('switch to web audio', this.currentTime, this.isPaused, this.audio.duration, this.audioBuffer.duration, this.audio.duration - this.audioBuffer.duration);
-
-      if (this.currentTime !== 0 && isNaN(this.audio.duration)) {
-        this.debug('For some reason this.audio.duration === NaN. Weird.', this.audio);
-
-        return;
-      }
 
       // if currentTime === 0, this is a new track, so play it
       // otherwise we're hitting this mid-track which may
@@ -321,7 +310,6 @@
 
     // public-ish functions
     pause() {
-      this.debug('pause');
       if (this.isUsingWebAudio) {
         if (this.bufferSourceNode.playbackRate.value === 0) return;
         this.webAudioPausedAt = this.audioContext.currentTime;
@@ -335,7 +323,6 @@
     }
 
     play() {
-      this.debug('play');
       if (this.audioBuffer) {
         // if we've already set up the buffer just set playbackRate to 1
         if (this.isUsingWebAudio) {
@@ -388,12 +375,9 @@
 
     preload(HTML5) {
       if (HTML5 && this.audio.preload !== 'auto') {
-        this.debug('preload', HTML5);
         this.audio.preload = 'auto';
       }
       else if (!this.audioBuffer && !this.queue.state.webAudioIsDisabled) {
-        this.debug('preload', HTML5);
-
         if (this.skipHEAD) {
           this.loadBuffer();
         }
@@ -405,7 +389,6 @@
 
     // TODO: add checks for to > duration or null or negative (duration - to)
     seek(to = 0) {
-      this.debug('seek', to);
       if (this.isUsingWebAudio) {
         this.seekBufferSourceNode(to);
       }
@@ -418,7 +401,6 @@
 
     seekBufferSourceNode(to) {
       const wasPaused = this.isPaused;
-      console.log(this.bufferSourceNode);
       this.bufferSourceNode.onended = null;
       this.bufferSourceNode.stop();
 
@@ -443,14 +425,12 @@
     }
 
     // basic event handlers
+    // TODO: Better error handling
     audioOnError(e) {
-      this.debug('audioOnError', e);
+      // this.debug('audioOnError', e);
     }
 
     onEnded(from) {
-      this.debug('onEnded', from, this.isActiveTrack, this);
-
-      // debug: try clearing the onended callback
       if (this.bufferSourceNode && this.bufferSourceNode.onended) {
         this.bufferSourceNode.onended = null;
       }
@@ -477,9 +457,7 @@
       // and then bow out, hence this being at the end of the function
       if (this.isPaused) return;
 
-      // this.debug(this.currentTime, this.duration);
       window.requestAnimationFrame(this.onProgress);
-      // setTimeout(this.onProgress, 33.33); // 30fps
     }
 
     setVolume(nextVolume) {
@@ -543,11 +521,6 @@
         duration: this.duration,
         idx: this.idx,
       };
-    }
-
-    // debug helper
-    debug(first, ...args) {
-      console.log(new Date(), `${this.idx}:${first}`, ...args, this.state, this);
     }
 
     // just a helper to quick jump to the end of a track for testing

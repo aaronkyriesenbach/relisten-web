@@ -67,6 +67,7 @@ const TapesColumn = ({ tapes, artistSlug, activeSourceId }) => {
                 {source.is_remaster && <Tag>REMASTER</Tag>}
               </div>
               {exists(source.avg_rating > 0) && <div className="details"><div className="label">{artistSlug === 'phish' ? 'Dot Net' : 'Rating'}:</div> <div>{Number(source.avg_rating).toFixed(2)} / {source.num_ratings || source.num_reviews} {pluralize('rating', source.num_ratings || source.num_reviews)}</div></div>}
+              {exists(source.avg_rating_weighted) && <div className="details"><div className="label">Avg rating (weighted):</div> {source.avg_rating_weighted}</div>}
               {exists(source.taper) && <div className="details"><div className="label">Taper:</div> <div>{source.taper}</div></div>}
               {exists(source.transferrer) && <div className="details"><div className="label">Transferrer:</div> <div>{source.transferrer}</div></div>}
               {exists(source.upstream_identifier) && <div className="details"><div className="label">SHNID:</div> <div>{source.upstream_identifier}</div></div>}
