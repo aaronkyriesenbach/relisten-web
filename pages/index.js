@@ -1,29 +1,29 @@
-import React from 'react';
-import Router from 'next/router';
-import Head from 'next/head';
-import UAParser from 'ua-parser-js';
-
 import 'isomorphic-fetch';
-
-import { fetchArtists } from '../redux/modules/artists';
-import { fetchYears } from '../redux/modules/years';
-import { fetchShows } from '../redux/modules/shows';
-import { fetchTapes } from '../redux/modules/tapes';
-import { updatePlayback, updatePlaybackTrack } from '../redux/modules/playback';
-
-import { updateApp } from '../redux/modules/app';
-import { createShowDate, splitShowDate, getParams, removeLeadingZero } from '../lib/utils';
-import player, { isPlayerMounted, initGaplessPlayer } from '../lib/player';
+import Head from 'next/head';
+import Router from 'next/router';
+import React from 'react';
+import UAParser from 'ua-parser-js';
+import ArtistsColumn from '../components/ArtistsColumn';
+import ShowsColumn from '../components/ShowsColumn';
+import SongsColumn from '../components/SongsColumn';
+import TapesColumn from '../components/TapesColumn';
+import YearsColumn from '../components/YearsColumn';
+import Layout from '../layouts';
 import artistSlugs from '../lib/artistSlugs';
 import '../lib/hotkeys';
+import player, { initGaplessPlayer, isPlayerMounted } from '../lib/player';
+import { createShowDate, getParams, removeLeadingZero, splitShowDate } from '../lib/utils';
+import { updateApp } from '../redux/modules/app';
+import { fetchArtists } from '../redux/modules/artists';
+import { updatePlayback, updatePlaybackTrack } from '../redux/modules/playback';
+import { fetchShows } from '../redux/modules/shows';
+import { fetchTapes } from '../redux/modules/tapes';
+import { fetchYears } from '../redux/modules/years';
 
-import Layout from '../layouts';
 
-import ArtistsColumn from '../components/ArtistsColumn';
-import YearsColumn from '../components/YearsColumn';
-import ShowsColumn from '../components/ShowsColumn';
-import TapesColumn from '../components/TapesColumn';
-import SongsColumn from '../components/SongsColumn';
+
+
+
 
 const Root = ({ app = {}, playback, url, isMobile, artists, serverRenderedMP3, serverRenderedSongTitle }) => {
   let title = false;
@@ -277,15 +277,17 @@ const playSong = (store, forceIsPaused) => {
   let currentIdx = 0;
   const tracks = [];
 
-  tape.sets.map(set =>
-    set.tracks.map(track => {
-      tracks.push(track);
-      if (track.slug === songSlug) {
-        currentIdx = idx;
-      }
-      idx++;
-    })
-  );
+  if (tape) {
+    tape.sets.map(set =>
+      set.tracks.map(track => {
+        tracks.push(track);
+        if (track.slug === songSlug) {
+          currentIdx = idx;
+        }
+        idx++;
+      })
+    );
+  }
 
   if (tracks.length && typeof window.Notification !== 'undefined') {
     if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {

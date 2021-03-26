@@ -1,11 +1,13 @@
-import React from 'react';
 import Link from 'next/link';
-
+import React from 'react';
 import RowLoading from './RowLoading';
 
-const Row = ({ height, children, href, active, loading, baseHrefOverride, ...props }) => (
-  <div className="relisten-row" style={{ minHeight: height }} {...props}>
-    <style jsx global>{`
+const Row = (props: Props) => {
+  const { height, children, href, active, loading, baseHrefOverride } = props;
+
+  return (
+    <div className="relisten-row" style={{ minHeight: height }} {...props}>
+      <style jsx global>{`
       .relisten-row {
         min-height: 34px;
         display: flex;
@@ -58,9 +60,26 @@ const Row = ({ height, children, href, active, loading, baseHrefOverride, ...pro
       }
 
     `}</style>
-    {loading && <RowLoading />}
-    {href || baseHrefOverride ? <Link href={baseHrefOverride ? baseHrefOverride : '/'} as={href}><a className={`${active ? 'active' : ''} content`}>{children}</a></Link> : children ? <div className={`content ${active ? 'active' : ''}`}>{children}</div> : null}
-  </div>
-);
+      {loading && <RowLoading />}
+      {href || baseHrefOverride ?
+        <Link href={baseHrefOverride ?? '/'} as={href}><a className={`${active ? 'active' : ''} content`}>{children}</a></Link>
+        :
+        children ?
+          <div className={`content ${active ? 'active' : ''}`}>{children}</div>
+          :
+          null
+      }
+    </div>
+  );
+};
+
+type Props = {
+  height?: number,
+  children?: any,
+  href?: string,
+  active?: any,
+  loading?: any,
+  baseHrefOverride?: string;
+};
 
 export default Row;

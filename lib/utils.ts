@@ -1,41 +1,38 @@
-export const addZero = (str = '') => {
-  const int = parseInt(str, 10);
-
-  if (int < 10) return '0' + String(int);
-  return String(int);
+export const addZero = (num: number): string => {
+  return String(num).padStart(2, '0');
 };
 
-export const removeLeadingZero = (str = '') => {
+export const removeLeadingZero = (str: string = '') => {
   const int = parseInt(str, 10);
 
   return String(int);
 };
 
-export const createShowDate = (year, month, day) => {
+export const createShowDate = (year: number, month: number, day: number) => {
   return `${year}-${addZero(month)}-${addZero(day)}`;
 };
 
-export const splitShowDate = (showDate = '') => {
+export const splitShowDate = (showDate: string = ''): { year: string, month: string, day: string; } => {
   const [year, month, day] = showDate.split('-');
 
   return { year, month, day };
 };
 
-export const getParams = query => {
+export const getParams = (query: string) => {
   if (!query) {
     return {};
   }
 
   return (/^[?#]/.test(query) ? query.slice(1) : query)
     .split('&')
-    .reduce((params, param) => {
-      const [ key, value ] = param.split('=');
+    .reduce((params: any, param: string) => {
+      const [key, value] = param.split('=');
       params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
       return params;
-    }, { });
+    }, {});
 };
 
-export const durationToHHMMSS = duration => {
+export const durationToHHMMSS = (duration: number) => {
   const prefix = duration < 0 ? '-' : '';
   let totalSeconds = Math.abs(duration);
   const hours = Math.floor(totalSeconds / 3600);
@@ -47,12 +44,12 @@ export const durationToHHMMSS = duration => {
   return prefix + [hours, hours ? addZero(minutes) : String(minutes), addZero(seconds)].filter(x => x).join(':');
 };
 
-export const simplePluralize = (str, count) => {
+export const simplePluralize = (str: string, count: number) => {
   return `${count} ${count === 1 ? str : str + 's'}`;
 };
 
-export const groupBy = function(xs, key) {
-  return xs.reduce((rv, x) => {
+export const groupBy = (xs: any, key: any) => {
+  return xs.reduce((rv: any, x: any) => {
     (rv[x[key]] = rv[x[key]] || []).push(x);
     return rv;
   }, {});
