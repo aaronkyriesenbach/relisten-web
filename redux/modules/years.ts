@@ -1,10 +1,13 @@
+import { ReceivedData } from "../../models/ReceivedData";
+import { Year } from "../../models/Year";
+
 const REQUEST_YEARS = 'years/REQUEST_YEARS';
 const RECEIVE_YEARS = 'years/RECEIVE_YEARS';
 
 const defaultState = {
 };
 
-export default function counter(state = defaultState, action) {
+export default function counter(state = defaultState, action: any) {
   switch (action.type) {
     case REQUEST_YEARS:
       return {
@@ -28,21 +31,21 @@ export default function counter(state = defaultState, action) {
             loading: false,
             error: false,
           },
-        },
+        } as ReceivedData<Year>,
       };
     default:
       return state;
   }
 }
 
-export function requestYears(artistSlug) {
+export function requestYears(artistSlug: string) {
   return {
     type: REQUEST_YEARS,
     artistSlug,
   };
 }
 
-export function receiveYears(artistSlug, data) {
+export function receiveYears(artistSlug: string, data: Year[]) {
   return {
     type: RECEIVE_YEARS,
     artistSlug,
@@ -50,8 +53,8 @@ export function receiveYears(artistSlug, data) {
   };
 }
 
-export function fetchYears(artistSlug) {
-  return (dispatch, getState) => {
+export function fetchYears(artistSlug: string) {
+  return (dispatch: any, getState: any) => {
     const state = getState().years[artistSlug];
     if (state && state.meta.loaded) return {};
     dispatch(requestYears(artistSlug));

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { ArtistWithCounts } from '../../models/ArtistWithCounts';
+import { ReceivedData } from '../../models/ReceivedData';
 import Column from '../column/Column';
 import RowHeader from '../RowHeader';
 import ArtistRow from './ArtistRow';
@@ -29,7 +30,7 @@ type Props = {
   artistSlug: string;
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: { artists?: ReceivedData<ArtistWithCounts>, app: any; }) => {
   const { artists, app } = state;
 
   return {
