@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Layout from '../layouts';
 
-import { groupBy } from '../lib/utils';
+import groupBy from 'lodash.groupby';
 
 import { fetchToday } from '../redux/modules/today';
 

@@ -48,13 +48,6 @@ export const simplePluralize = (str: string, count: number) => {
   return `${count} ${count === 1 ? str : str + 's'}`;
 };
 
-export const groupBy = (xs: any, key: any) => {
-  return xs.reduce((rv: any, x: any) => {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-};
-
 export const copyToClipboard = (text: string) => {
   var textArea = document.createElement("textarea");
   textArea.value = text;

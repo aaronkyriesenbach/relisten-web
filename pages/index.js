@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Router from 'next/router';
 import React from 'react';
 import UAParser from 'ua-parser-js';
-import ArtistColumn from '../components/artist-column/ArtistColumn';
+import ArtistColumn from '../components/artist/ArtistColumn';
 import ShowColumn from '../components/show-column/ShowColumn';
 import SongColumn from '../components/song-column/SongColumn';
 import TapeColumn from '../components/tape-column/TapeColumn';
