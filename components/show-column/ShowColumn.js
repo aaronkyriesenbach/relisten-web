@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { splitShowDate, createShowDate, removeLeadingZero, durationToHHMMSS, simplePluralize } from '../lib/utils';
-import sortActiveBands from '../lib/sortActiveBands';
+import { splitShowDate, createShowDate, removeLeadingZero, durationToHHMMSS, simplePluralize } from '../../lib/utils';
+import sortActiveBands from '../../lib/sortActiveBands';
 
-import Column from './Column';
-import Row from './Row';
-import RowHeader from './RowHeader';
-import Tag from './Tag';
+import Column from '../column/Column';
+import Row from '../row/Row';
+import RowHeader from '../RowHeader';
+import Tag from '../Tag';
 
-const ShowsColumn = ({ artistShows, artistSlug, year, displayDate }) => {
+const ShowColumn = ({ artistShows, artistSlug, year, displayDate }) => {
   const tours = {};
 
   return (
@@ -65,4 +65,4 @@ const mapStateToProps = ({ shows, app }) => {
   };
 };
 
-export default connect(mapStateToProps)(ShowsColumn);
+export default connect(mapStateToProps)(ShowColumn);

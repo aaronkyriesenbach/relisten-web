@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createShowDate, durationToHHMMSS, splitShowDate } from '../lib/utils.ts';
-import Column from './Column';
-import Row from './Row';
-import RowHeader from './RowHeader.tsx';
-import Tag from './Tag';
+import { createShowDate, durationToHHMMSS, splitShowDate } from '../../lib/utils';
+import Column from '../column/Column';
+import Row from '../row/Row';
+import RowHeader from '../RowHeader';
+import Tag from '../Tag';
 
 const exists = (str?: string) => {
   return str && !/unknown/i.test(str);
@@ -21,7 +21,7 @@ const pluralize = (str?: string, count?: number) => {
   return str + 's';
 };
 
-const TapesColumn = (props: { tapes: any, artistSlug: any, activeSourceId: any; }) => {
+const TapeColumn = (props: { tapes: any, artistSlug: any, activeSourceId: any; }) => {
   const { tapes, artistSlug, activeSourceId } = props;
   const sources = tapes.data && tapes.data.sources && tapes.data.sources.length ? tapes.data.sources : null;
   const { year, month, day } = sources && splitShowDate(sources[0].display_date) || {};
@@ -92,4 +92,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(TapesColumn);
+export default connect(mapStateToProps)(TapeColumn);

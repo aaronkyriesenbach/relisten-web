@@ -1,18 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { simplePluralize, groupBy } from '../lib/utils';
-
-import Column from './Column';
-import Row from './Row';
-import RowHeader from './RowHeader';
+import { groupBy, simplePluralize } from '../../lib/utils';
+import Column from '../column/Column';
+import Row from '../row/Row';
+import RowHeader from '../RowHeader';
 
 const byObject = {
   wsp: 'PanicStream',
   phish: 'Phish.in',
 };
 
-const ArtistsColumn = ({ artists = {}, artistSlug }) => (
+const ArtistColumn = ({ artists = {}, artistSlug }) => (
   <Column heading="Bands">
     {artists && artists.data && Object.entries(groupBy(Object.values(artists.data), 'featured')).sort(([a], [b]) => b - a).map(([type, artists]) =>
       [
@@ -36,4 +34,4 @@ const ArtistsColumn = ({ artists = {}, artistSlug }) => (
 
 const mapStateToProps = ({ artists, app }) => ({ artists, artistSlug: app.artistSlug });
 
-export default connect(mapStateToProps)(ArtistsColumn);
+export default connect(mapStateToProps)(ArtistColumn);

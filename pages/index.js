@@ -3,11 +3,11 @@ import Head from 'next/head';
 import Router from 'next/router';
 import React from 'react';
 import UAParser from 'ua-parser-js';
-import ArtistsColumn from '../components/ArtistsColumn';
-import ShowsColumn from '../components/ShowsColumn';
-import SongsColumn from '../components/SongsColumn';
-import TapesColumn from '../components/TapesColumn';
-import YearsColumn from '../components/YearsColumn';
+import ArtistColumn from '../components/artist-column/ArtistColumn';
+import ShowColumn from '../components/show-column/ShowColumn';
+import SongColumn from '../components/song-column/SongColumn';
+import TapeColumn from '../components/tape-column/TapeColumn';
+import YearColumn from '../components/year-column/YearColumn';
 import Layout from '../layouts';
 import artistSlugs from '../lib/artistSlugs';
 import '../lib/hotkeys';
@@ -19,11 +19,6 @@ import { updatePlayback, updatePlaybackTrack } from '../redux/modules/playback';
 import { fetchShows } from '../redux/modules/shows';
 import { fetchTapes } from '../redux/modules/tapes';
 import { fetchYears } from '../redux/modules/years';
-
-
-
-
-
 
 const Root = ({ app = {}, playback, url, isMobile, artists, serverRenderedMP3, serverRenderedSongTitle }) => {
   let title = false;
@@ -78,11 +73,11 @@ const Root = ({ app = {}, playback, url, isMobile, artists, serverRenderedMP3, s
             {serverRenderedMP3 && <meta property="og:audio:type" content="audio/mp3" />}
           </Head>
         }
-        {(!isMobile || activeColumn === 'artists') && <ArtistsColumn />}
-        {(!isMobile || activeColumn === 'years') && <YearsColumn />}
-        {(!isMobile || activeColumn === 'shows') && <ShowsColumn />}
-        {(!isMobile || activeColumn === 'songs') && <SongsColumn />}
-        {(!isMobile || activeColumn === 'tapes') && <TapesColumn />}
+        {(!isMobile || activeColumn === 'artists') && <ArtistColumn />}
+        {(!isMobile || activeColumn === 'years') && <YearColumn />}
+        {(!isMobile || activeColumn === 'shows') && <ShowColumn />}
+        {(!isMobile || activeColumn === 'songs') && <SongColumn />}
+        {(!isMobile || activeColumn === 'tapes') && <TapeColumn />}
       </div>
     </Layout>
   );

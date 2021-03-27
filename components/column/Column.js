@@ -1,6 +1,5 @@
-import React from 'react';
-import Row from './Row';
-import { Component } from 'react';
+import React, { Component } from 'react';
+import Row from '../row/Row';
 
 class Column extends Component {
   componentDidMount() {
@@ -59,7 +58,12 @@ class Column extends Component {
       }
     `}</style>
       {this.props.heading && <div className="heading">{this.props.heading}</div>}
-      <div className="column-content">{this.props.loading ? new Array(loadingAmount).fill(null).map((i, idx) => <Row key={idx} loading />) : this.props.children}</div>
+      <div className="column-content">
+        {this.props.loading ?
+          new Array(loadingAmount).fill(null).map((i, idx) => <Row key={idx} loading />)
+          :
+          this.props.children}
+      </div>
     </div>;
   }
 }

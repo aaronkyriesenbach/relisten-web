@@ -1,15 +1,13 @@
 import React from 'react';
-import Link from 'next/link';
 import { connect } from 'react-redux';
+import { copyToClipboard, createShowDate, durationToHHMMSS, removeLeadingZero, splitShowDate } from '../../lib/utils';
+import Column from '../column/Column';
+import Row from '../row/Row';
+import RowHeader from '../RowHeader';
 
-import { createShowDate, splitShowDate, durationToHHMMSS, removeLeadingZero } from '../lib/utils';
-
-import Column from './Column';
-import Row from './Row';
-import RowHeader from './RowHeader';
-
-const SongsColumn = ({ source, loading, artistSlug, songSlug, activePlaybackSourceId, gaplessTracksMetadata }) => {
-  const { year, month, day } = source ? splitShowDate(source.display_date) : {};
+const SongColumn = (props: Props) => {
+  const { source, loading, artistSlug, songSlug, activePlaybackSourceId, gaplessTracksMetadata } = props;
+  const { year, month, day } = source && splitShowDate(source.display_date) || {};
   const isActiveSource = source ? source.id === activePlaybackSourceId : false;
 
   return (
@@ -20,11 +18,11 @@ const SongsColumn = ({ source, loading, artistSlug, songSlug, activePlaybackSour
           flex: 1;
         }
       `}</style>
-      {source && source.sets.map((set, setIdx) =>
-        set.tracks.map((track, trackIdx) => {
+      {source && source.sets.map((set: any, setIdx: number) =>
+        set.tracks.map((track: any, trackIdx: number) => {
           const trackIsActive = track.slug === songSlug && isActiveSource;
           const trackMetadata = isActiveSource
-            ? gaplessTracksMetadata.find(gaplessTrack =>
+            ? gaplessTracksMetadata.find((gaplessTrack: any) =>
               gaplessTrack.trackMetadata && gaplessTrack.trackMetadata.trackId === track.id
             )
             : null;
@@ -48,16 +46,13 @@ const SongsColumn = ({ source, loading, artistSlug, songSlug, activePlaybackSour
       )}
       {source && <RowHeader>FIN</RowHeader>}
       {source && source.links &&
-        source.links.map(link =>
-          // <a href={link.url} target="_blank" key={link.id}>
-          //   <Row>
-          //     {link.label}
-          //   </Row>
-          // </a>
-          <div onClick={() => copyToClipboard(link.url)} style={{ cursor: 'pointer' }}>
-            <Row>
-              {link.label}
-            </Row>
+        source.links.map((link: any) =>
+          <div className='relisten-row row' key={link.id} style={{ cursor: 'pointer' }}>
+            <div>
+              <a href={link.url} target='_blank' rel='noopener noreferrer'>{link.label}</a>
+              {' '}
+              <i className='fas fa-clone' onClick={() => copyToClipboard(link.url)} />
+            </div>
           </div>
         )
       }
@@ -65,24 +60,17 @@ const SongsColumn = ({ source, loading, artistSlug, songSlug, activePlaybackSour
   );
 };
 
-const copyToClipboard = (text) => {
-  var textArea = document.createElement("textarea");
-  textArea.value = text;
-
-  textArea.style.top = "0";
-  textArea.style.left = "0";
-  textArea.style.position = "fixed";
-
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-
-  document.execCommand("copy");
-
-  document.body.removeChild(textArea);
+type Props = {
+  source?: any,
+  loading?: boolean,
+  artistSlug?: string,
+  songSlug?: string,
+  activePlaybackSourceId?: number,
+  gaplessTracksMetadata?: any;
 };
 
-const mapStateToProps = ({ tapes, app, playback }) => {
+const mapStateToProps = (state: any) => {
+  const { tapes, app, playback } = state;
   const activeSourceId = parseInt(app.source, 10);
   const activePlaybackSourceId = parseInt(playback.source, 10);
   const showDate = createShowDate(app.year, app.month, app.day);
@@ -94,7 +82,7 @@ const mapStateToProps = ({ tapes, app, playback }) => {
   if (showTapes.data && showTapes.data.sources && showTapes.data.sources.length) {
     const { sources } = showTapes.data;
 
-    source = sources.find(source => source.id === activeSourceId) || sources[0];
+    source = sources.find((source: any) => source.id === activeSourceId) || sources[0];
   }
 
   return {
@@ -107,4 +95,4 @@ const mapStateToProps = ({ tapes, app, playback }) => {
   };
 };
 
-export default connect(mapStateToProps)(SongsColumn);
+export default connect(mapStateToProps)(SongColumn);
