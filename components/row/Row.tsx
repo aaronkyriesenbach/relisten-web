@@ -4,7 +4,7 @@ import React from 'react';
 import RowLoading from '../RowLoading';
 import styles from './Row.module.scss';
 
-const Row = (props: Props) => {
+export default function Row(props: Props) {
   const { height, children, href, active, loading, baseHrefOverride } = props;
 
   return (
@@ -36,5 +36,3 @@ type Props = {
   loading?: any,
   baseHrefOverride?: string;
 };
-
-export default Row;
